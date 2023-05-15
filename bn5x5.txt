@@ -1,0 +1,84 @@
+import random
+
+jogador = []
+computador = []
+computadorEscondido = []
+
+# aqui eu crio as matrizes
+for x in range(5):
+    jogador.append(["O"] * 5)
+    computador.append(["O"] * 5)
+    computadorEscondido.append(["O"] * 5)
+
+
+# Nessa função eu arrumo a matriz para parecer um tabuleiro de batalha naval
+def Tabuleiro(jogador):
+    print("     BATALHA NAVAL")
+    print("  0 1 2 3 4")
+    l = 0
+    for linha in jogador:
+        print("%d|%s|" % (l, " ".join(linha)))
+        l += 1
+
+
+# Aqui eu peço para o jogador posicionar seus barcos.
+def NavioJogador():
+    print("Posicione seus 3 barcos.")
+    for i in range(3):
+        linhajogador = int(input("Escolha a linha: "))
+        while linhajogador not in range(5):
+            print("Valor Inválido!")
+            linhajogador = int(input("Escolha a linha: "))
+
+        colunajogador = int(input("Escolha a coluna: "))
+        while colunajogador not in range(5):
+            print("Valor Inválido!")
+            colunajogador = int(input("Escolha a coluna: "))
+
+        jogador[linhajogador][colunajogador] = "N"
+        return int(linhajogador), int(colunajogador)
+
+
+def NavioComputador(computador):
+    for j in range(3):
+        linha = random.randint(0, 4)
+        coluna = random.randint(0, 4)
+        while computador[linha][coluna] == "N":
+            linha = random.randint(0, 4)
+            coluna = random.randint(0, 4)
+        computador[linha][coluna] = "N"
+        return int(linha), int(coluna)
+
+
+def Atirar():
+    linhaatirar = int(input("Linha: "))
+    while linhaatirar not in range(5):
+        print("Valor Inválido!")
+        linhaatirar = int(input("Linha: "))
+
+    colunaatirar = int(input("Coluna: "))
+    while colunaatirar not in range(5):
+        print("Valor Inválido!")
+        colunaatirar = int(input("Coluna: "))
+
+    return int(linhaatirar), int(colunaatirar)
+
+
+def AtirarComputador():
+    linhaC = random.randint(0, 4)
+    colunaC = random.randint(0, 4)
+    while jogador[linhaC][colunaC] == "X" or jogador[linhaC][colunaC] == "O":
+        linhaC = random.randint(0, 4)
+        colunaC = random.randint(0, 4)
+    return linhaC, colunaC
+
+
+Tabuleiro(jogador)
+navios = 3
+while navios != 0:
+    linhajogador, colunajogador = NavioJogador()
+    NavioComputador(computador)
+    Tabuleiro(jogador)
+    navios -= 1
+
+print("           VAMOS JOGAR")
